@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.example.RestApi.entity.Product;
 import com.example.RestApi.entity.ProductRequest;
 import com.example.RestApi.entity.ProductResponse;
+import com.example.RestApi.entity.ResponseEntity;
 import com.example.RestApi.repository.ProductRepository;
 
 @Service
@@ -20,10 +22,7 @@ public class ProductService {
 
     public ProductResponse saveProduct(ProductRequest body) {
 
-        String slug = this.genSlug();
-
-        var product = new Product();
-        product.setSlug(slug);
+        var product = new Product(genSlug());
         product.setName(body.getName());
         product.setPrice(body.getPrice());
         product.setQuantity(body.getQuantity());
@@ -46,12 +45,9 @@ public class ProductService {
         List<Product> products = new ArrayList<Product>();
 
         body.forEach((data) -> {
-
-            String slug = this.genSlug();
             
-            Product product = new Product();
+            Product product = new Product(genSlug());
             product.setId(data.getId());
-            product.setSlug(slug);
             product.setName(data.getName());
             product.setPrice(data.getPrice());
             product.setQuantity(data.getQuantity());
@@ -108,22 +104,53 @@ public class ProductService {
         return response;
     }
 
-    public List<ProductResponse> getProductByName(String name) {
+    public ResponseEntity<ProductResponse> getProductBySlug(String slug) {
+        var response = new ResponseEntity<ProductResponse>();
 
-        List<ProductResponse> response = new ArrayList<ProductResponse>();
+        var result = productRepository.findBySlug(slug);
+
+        if(result != null) {
+            var data = new ProductResponse();
+            data.setId(result.getId());
+            data.setSlug(result.getSlug());
+            data.setName(result.getName());
+            data.setPrice(result.getPrice());
+            data.setQuantity(result.getQuantity());
+
+            response.setData(data);
+            response.setHttpStatus(HttpStatus.OK);
+        }
+        else {
+            response.setHttpStatus(HttpStatus.NOT_FOUND);
+        }
+
+        return response;
+    }
+
+    public ResponseEntity<List<ProductResponse>> getProductByName(String name) {
+        var response = new ResponseEntity<List<ProductResponse>>();
+        List<ProductResponse> data = new ArrayList<ProductResponse>();
 
         var result = productRepository.findByName(name);
 
-        result.forEach((data) -> {
-            ProductResponse product = new ProductResponse();
-            product.setId(data.getId());
-            product.setSlug(data.getSlug());
-            product.setName(data.getName());
-            product.setPrice(data.getPrice());
-            product.setQuantity(data.getQuantity());
+        if(result.size() > 0) {
+            result.forEach((product) -> {
+                ProductResponse temp = new ProductResponse();
+                temp.setId(product.getId());
+                temp.setSlug(product.getSlug());
+                temp.setName(product.getName());
+                temp.setPrice(product.getPrice());
+                temp.setQuantity(product.getQuantity());
+    
+                data.add(temp);
+            });
 
-            response.add(product);
-        });
+            response.setData(data);
+            response.setHttpStatus(HttpStatus.OK);
+        }       
+        else {
+            response.setHttpStatus(HttpStatus.NOT_FOUND);
+        } 
 
         return response;
     }

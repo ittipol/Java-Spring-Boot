@@ -49,10 +49,16 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    @GetMapping("/getProductBySlug/{name}")
+    public ResponseEntity<ProductResponse> getProductBySlug(@PathVariable String name) {
+        var result = productService.getProductBySlug(name); 
+        return ResponseEntity.status(result.getHttpStatus()).body(result.getData());
+    }
+
     @GetMapping("/getProductByName/{name}")
     public ResponseEntity<List<ProductResponse>> getProductByName(@PathVariable String name) {
         var result = productService.getProductByName(name); 
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+        return ResponseEntity.status(result.getHttpStatus()).body(result.getData());
     }
 
     @PutMapping("/updateProduct")
