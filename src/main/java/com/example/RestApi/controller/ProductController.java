@@ -19,55 +19,55 @@ import com.example.RestApi.entity.ProductResponse;
 import com.example.RestApi.service.ProductService;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/v1/product")
 public class ProductController {
     
     @Autowired
     private ProductService productService;
     
-    @PostMapping("/addProduct")
+    @PostMapping("/")
     public ResponseEntity<ProductResponse> addProduct(@RequestBody ProductRequest product) {
         var result = productService.saveProduct(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
-    @PostMapping("/addProducts")
+    @PostMapping("/list")
     public ResponseEntity<List<ProductResponse>> addProducts(@RequestBody List<ProductRequest> products) {
         var result = productService.saveProducts(products);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
-    @GetMapping("/getProducts")
+    @GetMapping("/all")
     public ResponseEntity<List<ProductResponse>> getAllProducts() {
         var result = productService.getAllProducts();
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @GetMapping("/getProductById/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> getProductById(@PathVariable int id) {
         var result = productService.getProductById(id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @GetMapping("/getProductBySlug/{name}")
-    public ResponseEntity<ProductResponse> getProductBySlug(@PathVariable String name) {
-        var result = productService.getProductBySlug(name); 
+    @GetMapping("/slug/{slug}")
+    public ResponseEntity<ProductResponse> getProductBySlug(@PathVariable String slug) {
+        var result = productService.getProductBySlug(slug); 
         return ResponseEntity.status(result.getHttpStatus()).body(result.getData());
     }
 
-    @GetMapping("/getProductByName/{name}")
+    @GetMapping("/name/{name}")
     public ResponseEntity<List<ProductResponse>> getProductByName(@PathVariable String name) {
         var result = productService.getProductByName(name); 
         return ResponseEntity.status(result.getHttpStatus()).body(result.getData());
     }
 
-    @PutMapping("/updateProduct")
+    @PutMapping("/")
     public ResponseEntity<ProductResponse> updateProduct(@RequestBody ProductRequest product) {
         var result = productService.updateProduct(product);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @DeleteMapping("/deleteProduct/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable int id) {
         productService.deleteProduct(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);

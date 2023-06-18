@@ -18,6 +18,7 @@ https://www.eclipse.org/downloads/packages/
 - Spring Boot DevTools
 - Spring Web
 - Lombok
+- Gson
 - Spring Data JPA
 - MySQL Driver
 
@@ -36,7 +37,7 @@ docker compose up -d --build
 
 ### Add Product
 ``` bash
-curl --location --request POST 'http://localhost:5000/product/addProduct' \
+curl --location --request POST 'http://localhost:5000/v1/product/addProduct' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "name": "product1",
@@ -47,7 +48,7 @@ curl --location --request POST 'http://localhost:5000/product/addProduct' \
 
 ### Add Products
 ``` bash
-curl --location --request POST 'http://localhost:5000/product/addProducts' \
+curl --location --request POST 'http://localhost:5000/v1/product/addProducts' \
 --header 'Content-Type: application/json' \
 --data-raw '[
     {
@@ -65,22 +66,22 @@ curl --location --request POST 'http://localhost:5000/product/addProducts' \
 
 ### Get Products
 ``` bash
-curl --location --request GET 'http://localhost:5000/product/getProducts'
+curl --location --request GET 'http://localhost:5000/v1/product/getProducts'
 ```
 
 ### Get Product By ID
 ``` bash
-curl --location --request GET 'http://localhost:5000/product/getProductById/1'
+curl --location --request GET 'http://localhost:5000/v1/product/getProductById/1'
 ```
 
 ### Get Product By Name
 ``` bash
-curl --location --request GET 'http://localhost:5000/product/getProductByName/product1'
+curl --location --request GET 'http://localhost:5000/v1/product/getProductByName/product1'
 ```
 
 ### Update Product
 ``` bash
-curl --location --request PUT 'http://localhost:5000/product/updateProduct' \
+curl --location --request PUT 'http://localhost:5000/v1/product/updateProduct' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "id":3,
@@ -92,7 +93,7 @@ curl --location --request PUT 'http://localhost:5000/product/updateProduct' \
 
 ### Delete Product
 ``` bash
-curl --location --request DELETE 'http://localhost:5000/product/deleteProduct/2'
+curl --location --request DELETE 'http://localhost:5000/v1/product/deleteProduct/2'
 ```
 
 ## Software stack
