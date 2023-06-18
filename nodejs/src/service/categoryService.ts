@@ -1,6 +1,14 @@
-import { repoGetCategory } from "../repository/categoryRepository"
+import categoryRepository from "../repository/categoryRepository"
 
-export const getCategory = async () => {
-    const categories = await repoGetCategory()
+const getCategory = async () => {
+    const { getCategory } = await categoryRepository()
+
+    const categories = await getCategory()
     return categories
 }
+
+const categoryService = async () => {
+    return { getCategory }
+}
+
+export default categoryService

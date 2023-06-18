@@ -25,7 +25,7 @@ public class ProductController {
     @Autowired
     private ProductService productService;
     
-    @PostMapping("/")
+    @PostMapping("")
     public ResponseEntity<ProductResponse> addProduct(@RequestBody ProductRequest product) {
         var result = productService.saveProduct(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
@@ -61,7 +61,7 @@ public class ProductController {
         return ResponseEntity.status(result.getHttpStatus()).body(result.getData());
     }
 
-    @PutMapping("/")
+    @PutMapping("")
     public ResponseEntity<ProductResponse> updateProduct(@RequestBody ProductRequest product) {
         var result = productService.updateProduct(product);
         return ResponseEntity.status(HttpStatus.OK).body(result);

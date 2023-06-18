@@ -10,12 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 
 import com.example.RestApi.entity.CategoryResponse;
 import com.example.RestApi.entity.ResponseEntity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+@Service
 public class CategoryService {
     
     public ResponseEntity<List<CategoryResponse>> getCategory() {
@@ -24,7 +26,6 @@ public class CategoryService {
         HttpClient httpClient = HttpClient.newHttpClient();
         Gson gson = new Gson();        
 
-        // List<Category> categories = new ArrayList<>();
         Type categoryList = new TypeToken<ArrayList<CategoryResponse>>(){}.getType();
     
         try {
@@ -42,7 +43,6 @@ public class CategoryService {
             response.setHttpStatus(HttpStatus.OK);
 
         } catch (Exception e) {
-            // e.printStackTrace();
             response.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
