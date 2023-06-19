@@ -1,13 +1,13 @@
 import categoryRepository from "../repository/categoryRepository"
 
 const getCategory = async () => {
-    const { getCategory } = await categoryRepository()
+    const { getCategory } = categoryRepository()
 
     const categories = await getCategory()
     return categories
 }
 
-const categoryService = async () => {
+const categoryService = () => {
     return { getCategory }
 }
 
