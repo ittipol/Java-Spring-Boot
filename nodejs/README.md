@@ -51,9 +51,9 @@ The HTTP 200 OK response code implies a successful request.
 
 Here is an example of this kind of HTTP response.
 
-GET: The response contains an entity that corresponds to the resource requested.
-POST: An entity that describes or contains the action’s result.
-HEAD: In the response, the entity-header fields related to the requested resource are sent without any message-body.
+- GET: The response contains an entity that corresponds to the resource requested.
+- POST: An entity that describes or contains the action’s result.
+- HEAD: In the response, the entity-header fields related to the requested resource are sent without any message-body.
 
 ### 2. 201 Created
 This indicates that the request was completed, and a new resource was created as a result. The URI(s) sent in the response entity can refer to the newly generated help, with a Location header field providing the most particular URI for the resource.

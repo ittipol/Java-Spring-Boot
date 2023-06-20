@@ -4,34 +4,57 @@ import { accountRequest, accountResponse } from '@/entity/account'
 const getAccount = async () => {
     const { getAccount } = accountRepository();
 
-    const result = await getAccount();
+    let result: Array<accountResponse> = [];
 
-    // result.forEach((value, index) => {})
+    const accounts = await getAccount();
 
-    console.log('getAccount');
+    accounts.forEach((value, index) => {
+
+        const account: accountResponse = {
+            id: value.id,
+            accountNo: value.accountNo,
+            name: value.name,
+            description: value.description
+        };
+
+        result.push(account);
+    })
+
+    return result;
 }
 
-const addAccount = async (body:any): Promise<accountResponse> => {
+const addAccount = async (body:any) => {
     const { addAccount } = accountRepository();
 
+    let result: accountResponse = {
+        id: 0,
+        accountNo: "",
+        name: "",
+        description: "",
+    }
+
     if((body.accountNo === undefined) || (body.name === undefined) || (body.description === undefined)) {
-        // return
+        return result;
     }
 
     const accountData:accountRequest = {
         accountNo: body.accountNo,
         name: body.name,
         description: body.description
-    };
+    }
 
-    const result = await addAccount(accountData);
+    const account = await addAccount(accountData);
 
-    return {
-        id: result.id,
-        accountNo: result.accountNo,
-        name: result.name,
-        description: result.description
-    } as accountResponse;
+    if(account.id == 0) {
+        return result
+    }
+
+    result.id = account.id,
+    result.accountNo = account.accountNo
+    result.name = account.name
+    result.description = account.description
+
+    return result
 }
 
 const accountService = () => {

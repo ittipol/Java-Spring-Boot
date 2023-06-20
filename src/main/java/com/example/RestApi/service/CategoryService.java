@@ -30,7 +30,7 @@ public class CategoryService {
     
         try {
             HttpRequest getRequest = HttpRequest.newBuilder()
-            .uri(new URI("http://localhost:5050/category"))
+            .uri(new URI("http://localhost:4000/category"))
             // .header("Authorization", "Bearer")
             .build();
 

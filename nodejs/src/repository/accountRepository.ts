@@ -62,3 +62,15 @@ const categoryRepository = () => {
 }
 
 export default categoryRepository
+
+
+// await prisma.category.createMany({
+//     data:[
+//         {
+//             name: "Category-A"
+//         },
+//         {
+//             name: "Category-B"
+//         }
+//     ]
+// })

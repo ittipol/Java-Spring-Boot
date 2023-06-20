@@ -28,19 +28,17 @@ const main = async () => {
     })
 
     app.get("/category", async (req, res) => {
-        const { getCategory } = categoryService()
+        const { getCategory } = categoryService();
 
-        const categories = await getCategory()
-        res.json(categories)
+        const result = await getCategory();
+        res.status(200).json(result);
     })
 
     app.get("/account", async (req, res) => {
-        const { getAccount } = accountService()
+        const { getAccount } = accountService();
 
-        getAccount()
-
-        res.send("ok")
-
+        const result = await getAccount();
+        res.status(200).json(result);
     })
 
     // app.get("/account/:accountNo", async (req, res) => {
@@ -49,12 +47,12 @@ const main = async () => {
     // })
 
     app.post("/account", async (req, res) => {
-        const { addAccount } = accountService()
+        const { addAccount } = accountService();
 
         console.table(req.body)
-        const result = await addAccount(req.body)
+        const result = await addAccount(req.body);
 
-        res.status(201).json(result)
+        res.status(201).json(result);
     })
 
     app.listen(port, () => {
@@ -72,18 +70,3 @@ main()
     await prisma.$disconnect
     process.exit(1)
 })
-
-// await prisma.category.createMany({
-//     data:[
-//         {
-//             name: "Category-A"
-//         },
-//         {
-//             name: "Category-B"
-//         }
-//     ]
-// })
-
-// const allUsers = await prisma.account.findMany()
-// console.log(allUsers)
-// console.table(allUsers)
