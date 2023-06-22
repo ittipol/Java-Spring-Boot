@@ -1,14 +1,11 @@
 package com.example.RestApi.entity;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-public class AccountResponse {
-    private int id;
+public class AccountRequest {
     private String accountNo;
     private String name;
     private String description;

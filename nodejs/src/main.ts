@@ -6,8 +6,6 @@ import dotenv from 'dotenv'
 import categoryService from './service/categoryService'
 import accountService from './service/accountService'
 
-import { accountRequest } from './entity/account';
-
 const prisma = new PrismaClient()
 
 const main = async () => {
@@ -37,6 +35,10 @@ const main = async () => {
     app.get("/account", async (req, res) => {
         const { getAccount } = accountService();
 
+        // Access the provided 'page' and 'limt' query parameters
+        // const page = req.query.page;
+        // const limit = req.query.limit;
+
         const result = await getAccount();
         res.status(200).json(result);
     })
@@ -49,9 +51,7 @@ const main = async () => {
     app.post("/account", async (req, res) => {
         const { addAccount } = accountService();
 
-        console.table(req.body)
         const result = await addAccount(req.body);
-
         res.status(201).json(result);
     })
 

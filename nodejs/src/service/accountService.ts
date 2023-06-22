@@ -1,5 +1,5 @@
 import accountRepository from '../repository/accountRepository'
-import { accountRequest, accountResponse } from '@/entity/account'
+import { accountRequest, accountResponse } from '@/model/account'
 
 const getAccount = async () => {
     const { getAccount } = accountRepository();
@@ -12,7 +12,7 @@ const getAccount = async () => {
 
         const account: accountResponse = {
             id: value.id,
-            accountNo: value.accountNo,
+            accountNo: value.account_no,
             name: value.name,
             description: value.description
         };
@@ -24,7 +24,7 @@ const getAccount = async () => {
 }
 
 const addAccount = async (body:any) => {
-    const { addAccount } = accountRepository();
+    const { addAccount, getAccountByAccountNo } = accountRepository();
 
     let result: accountResponse = {
         id: 0,
@@ -33,7 +33,13 @@ const addAccount = async (body:any) => {
         description: "",
     }
 
-    if((body.accountNo === undefined) || (body.name === undefined) || (body.description === undefined)) {
+    if((body.accountNo === undefined) || (body.name === undefined)) {
+        return result;
+    }
+    
+    const account = await getAccountByAccountNo(body.accountNo)
+
+    if (account !== null) {
         return result;
     }
 
@@ -42,17 +48,17 @@ const addAccount = async (body:any) => {
         name: body.name,
         description: body.description
     }
+    
+    const addedAccount = await addAccount(accountData);
 
-    const account = await addAccount(accountData);
-
-    if(account.id == 0) {
+    if(addedAccount === null) {
         return result
     }
 
-    result.id = account.id,
-    result.accountNo = account.accountNo
-    result.name = account.name
-    result.description = account.description
+    result.id = addedAccount.id,
+    result.accountNo = addedAccount.account_no
+    result.name = addedAccount.name
+    result.description = addedAccount.description
 
     return result
 }

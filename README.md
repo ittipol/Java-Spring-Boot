@@ -96,6 +96,23 @@ curl --location --request PUT 'http://localhost:5000/v1/product' \
 curl --location --request DELETE 'http://localhost:5000/v1/product/2'
 ```
 
+### Get Accounts
+``` bash
+curl --location --request GET 'http://localhost:5000/v1/account'
+```
+
+### Add Account
+``` bash
+curl --location --request POST 'http://localhost:5000/v1/account' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "accountNo": "123-4567-890",
+    "name": "name-test",
+    "description": "desc-test"
+}'
+```
+
 ## Software stack
 - Java Spring Boot
+- Node.js
 - MySQL

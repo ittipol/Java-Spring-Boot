@@ -1,29 +1,40 @@
 import { PrismaClient } from '@prisma/client'
-import { accountRequest, accountEntity, accountResponse } from '@/entity/account'
+import { accountRequest } from '@/model/account'
 
 const prisma = new PrismaClient();
 
 const getAccount = async () => {
-    let result: Array<accountEntity> = [];
-
     const accounts = await prisma.account.findMany();
-
-    accounts.forEach((value, index) => {
-
-        const account: accountEntity = {
-            id: value.id,
-            accountNo: value.account_no,
-            name: value.name,
-            description: value.description
-        }
-
-        result.push(account)
-    })
-
-    return result;
+    return accounts;
 }
 
-const addAccount = async (data:accountRequest): Promise<accountEntity> => {
+const getAccountById = async (id: number) => {
+    
+    const account = await prisma.account.findFirst({
+        where: {
+            id: {
+                equals: id
+            }
+        }
+    });
+
+    return account;
+}
+
+const getAccountByAccountNo = async (accountNo: string) => {
+    
+    const account = await prisma.account.findFirst({
+        where: {
+            account_no: {
+                equals: accountNo
+            }
+        }
+    });
+
+    return account;
+}
+
+const addAccount = async (data:accountRequest) => {
 
     const result = await prisma.account.create({
         data: {
@@ -32,36 +43,15 @@ const addAccount = async (data:accountRequest): Promise<accountEntity> => {
             description: data.description
         }
     })
-    .then(value => {
-        console.log(value)
-
-        return {
-            id: value.id,
-            accountNo: value.account_no,
-            name: value.name,
-            description: value.description
-        } as accountEntity
-
-    })
-    .catch(reason => {
-        console.log(reason)
-
-        return {
-            id: 0,
-            accountNo: "",
-            name: "",
-            description: "",
-        } as accountEntity
-    });
 
     return result;
 }
 
-const categoryRepository = () => {
-    return { getAccount, addAccount };
+const accountRepository = () => {
+    return { getAccount, getAccountById, getAccountByAccountNo, addAccount };
 }
 
-export default categoryRepository
+export default accountRepository
 
 
 // await prisma.category.createMany({
